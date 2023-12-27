@@ -579,7 +579,7 @@ Resources:
         - Ref: PrivateSubnet03
       SecurityGroupIds:
         - Ref: SSMSG
-`
+
 Outputs:
 
 #  SubnetIds:
