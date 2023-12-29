@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Amazon EKS VPC - 3 AZ, 3 public and private subnets, 3 IGW, 3 NATGW, 3 Public and Private RT, Security Group for ControlPlane '
+Description: 'Amazon EKS VPC - 3 AZ, 3 public and private subnets, 3 IGW, 3 NATGW, 3 Public and Private RT, Security Group for ControlPlane, VGW, CGw, VPN tunnel'
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -593,8 +593,9 @@ Resources:
     Type: AWS::EC2::CustomerGateway
     Properties:
       Type: ipsec.1
-#      BgpAsn: !Ref RemoteBgpAsn
-      IpAddress: EIP
+        #      BgpAsn: !Ref RemoteBgpAsn
+      BgpAsn: 65000
+      IpAddress: 13.124.125.137
 
 ########################################################
 # Create-VPN: VPN Connection
@@ -615,14 +616,14 @@ Resources:
 # Create-VPN: Public Subnet Route Propagation
 ########################################################
 
-  VPNGatewayRoutePropagationBoth:
-    Condition: IncludePublic
+  VPNGatewayRoutePropagation:
     Type: AWS::EC2::VPNGatewayRoutePropagation
     DependsOn:
     - VPNGateway
     - VPNConnection
     Properties:
-      RouteTableIds: !Ref PublicRouteTable
+      RouteTableIds:
+        - !Ref  PublicRouteTable
       VpnGatewayId: !Ref VPNGateway
 
 #  VPNGatewayRoutePropagationPrivateOnly:
