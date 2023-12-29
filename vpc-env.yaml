@@ -595,7 +595,7 @@ Resources:
       Type: ipsec.1
         #      BgpAsn: !Ref RemoteBgpAsn
       BgpAsn: 65000
-      IpAddress: 13.124.125.137
+      IpAddress: 
 
 ########################################################
 # Create-VPN: VPN Connection
