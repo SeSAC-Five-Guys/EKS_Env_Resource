@@ -589,13 +589,20 @@ Resources:
 # Create-VPN: Customer Gateway
 ########################################################
 
+  CustomerGatewayEIP:
+    DependsOn:
+    - VPCGatewayAttachment
+    Type: 'AWS::EC2::EIP'
+    Properties: 
+      Domain: vpc
+
   CustomerGateway:
     Type: AWS::EC2::CustomerGateway
     Properties:
       Type: ipsec.1
         #      BgpAsn: !Ref RemoteBgpAsn
       BgpAsn: 65000
-      IpAddress: 
+      IpAddress: !GetAtt 'CustomerGatewayEIP.PublicIp'
 
 ########################################################
 # Create-VPN: VPN Connection
